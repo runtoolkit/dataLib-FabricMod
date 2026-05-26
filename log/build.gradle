@@ -1,5 +1,7 @@
-archivesBaseName = "datalib-log"
+base {
+    archivesName = "datalib-log"
+}
 
 dependencies {
-    modImplementation project(":core")
+    modImplementation project(path: ":core", configuration: "namedElements")
 }

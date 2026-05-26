@@ -1,9 +1,11 @@
-archivesBaseName = "datalib-main"
+base {
+    archivesName = "datalib-main"
+}
 
 dependencies {
-    modImplementation project(":core")
-    modImplementation project(":command")
-    modImplementation project(":log")
+    modImplementation project(path: ":core", configuration: "namedElements")
+    modImplementation project(path: ":command", configuration: "namedElements")
+    modImplementation project(path: ":log", configuration: "namedElements")
 }
 
 tasks.jar {

@@ -1,1 +1,3 @@
-archivesBaseName = "datalib-core"
+base {
+    archivesName = "datalib-core"
+}

@@ -1,5 +1,7 @@
-archivesBaseName = "datalib-command"
+base {
+    archivesName = "datalib-command"
+}
 
 dependencies {
-    modImplementation project(":core")
+    modImplementation project(path: ":core", configuration: "namedElements")
 }
