@@ -1,0 +1,29 @@
+archivesBaseName = "datalib-main"
+
+dependencies {
+    implementation project(":core")
+    implementation project(":command")
+    implementation project(":log")
+}
+
+// Embed sub-module JARs as nested jars (Fabric JiJ)
+tasks.jar {
+    dependsOn(
+        project(":core").tasks.jar,
+        project(":command").tasks.jar,
+        project(":log").tasks.jar
+    )
+
+    from(project(":core").tasks.jar.archiveFile) {
+        into("META-INF/jars")
+        rename { "datalib-core.jar" }
+    }
+    from(project(":command").tasks.jar.archiveFile) {
+        into("META-INF/jars")
+        rename { "datalib-command.jar" }
+    }
+    from(project(":log").tasks.jar.archiveFile) {
+        into("META-INF/jars")
+        rename { "datalib-log.jar" }
+    }
+}

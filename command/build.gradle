@@ -1,0 +1,5 @@
+archivesBaseName = "datalib-command"
+
+dependencies {
+    implementation project(":core")
+}

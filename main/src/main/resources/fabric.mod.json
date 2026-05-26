@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "datalib",
+  "version": "${version}",
+  "name": "DataLib",
+  "description": "DataLib v5 — Fabric mod wrapper with embedded datapack.",
+  "authors": ["tickwarden", "runtoolkit"],
+  "license": "MIT",
+
+  "entrypoints": {
+    "main": [
+      "runtoolkit.datalib.DataLibMain"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": "~1.21.4",
+    "fabric-api": "*"
+  },
+
+  "jars": [
+    { "file": "META-INF/jars/datalib-core.jar" },
+    { "file": "META-INF/jars/datalib-command.jar" },
+    { "file": "META-INF/jars/datalib-log.jar" }
+  ]
+}

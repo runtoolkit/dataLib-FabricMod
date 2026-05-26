@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "datalib-log",
+  "version": "${version}",
+  "name": "DataLib Log",
+  "description": "Structured log bridge — mirrors datalib:systems/log/* to server log.",
+
+  "entrypoints": {
+    "main": [
+      "runtoolkit.datalib.log.DataLibLog"
+    ]
+  },
+
+  "depends": {
+    "fabricloader": ">=0.16.10",
+    "minecraft": "~1.21.4",
+    "fabric-api": "*",
+    "datalib-core": "*"
+  }
+}

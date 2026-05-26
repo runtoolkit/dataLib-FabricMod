@@ -1,0 +1,6 @@
+rootProject.name = "datalib-fabricmod"
+
+include("core")
+include("command")
+include("log")
+include("main")
