@@ -1,5 +1,5 @@
 archivesBaseName = "datalib-log"
 
 dependencies {
-    implementation project(":core")
+    modImplementation project(":core")
 }

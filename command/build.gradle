@@ -1,5 +1,5 @@
 archivesBaseName = "datalib-command"
 
 dependencies {
-    implementation project(":core")
+    modImplementation project(":core")
 }

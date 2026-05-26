@@ -1,28 +1,29 @@
 archivesBaseName = "datalib-main"
 
 dependencies {
-    implementation project(":core")
-    implementation project(":command")
-    implementation project(":log")
+    // Compile-time access to sub-modules (Loom uses modImplementation for inter-project)
+    modImplementation project(":core")
+    modImplementation project(":command")
+    modImplementation project(":log")
 }
 
 // Embed sub-module JARs as nested jars (Fabric JiJ)
 tasks.jar {
     dependsOn(
-        project(":core").tasks.jar,
-        project(":command").tasks.jar,
-        project(":log").tasks.jar
+        project(":core").tasks.remapJar,
+        project(":command").tasks.remapJar,
+        project(":log").tasks.remapJar
     )
 
-    from(project(":core").tasks.jar.archiveFile) {
+    from(project(":core").tasks.remapJar.archiveFile) {
         into("META-INF/jars")
         rename { "datalib-core.jar" }
     }
-    from(project(":command").tasks.jar.archiveFile) {
+    from(project(":command").tasks.remapJar.archiveFile) {
         into("META-INF/jars")
         rename { "datalib-command.jar" }
     }
-    from(project(":log").tasks.jar.archiveFile) {
+    from(project(":log").tasks.remapJar.archiveFile) {
         into("META-INF/jars")
         rename { "datalib-log.jar" }
     }
