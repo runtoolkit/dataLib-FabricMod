@@ -29,11 +29,7 @@ jobs:
 
       - name: Auto Fix Loom
         run: |
-          echo "Auto Fix Starting..."
-          sed -i "s/loom_version/'1.9.2'/g" build.gradle || true
-          sed -i "s/id 'fabric-loom' version .*/id 'fabric-loom' version '1.9.2' apply false/" build.gradle || true
-          sed -i 's/id "fabric-loom" version .*/id "fabric-loom" version "1.9.2" apply false/' build.gradle || true
-          echo "Fix completed."
+        exit 0
         continue-on-error: true
 
       - name: Setup Gradle
