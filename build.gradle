@@ -3,7 +3,6 @@ plugins {
     id 'maven-publish'
 }
 
-// Apply common config to all subprojects that need Fabric
 subprojects {
     apply plugin: 'fabric-loom'
     apply plugin: 'maven-publish'
@@ -22,13 +21,6 @@ subprojects {
                 sourceSet sourceSets.main
             }
         }
-    }
-
-    dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        mappings loom.officialMojangMappings()
-        modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
-        modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
     }
 
     processResources {
