@@ -1,3 +1,7 @@
 base {
     archivesName = "datalib-command"
 }
+
+dependencies {
+    mappings loom.officialMojangMappings()
+}

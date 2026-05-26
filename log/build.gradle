@@ -1,3 +1,7 @@
 base {
     archivesName = "datalib-log"
 }
+
+dependencies {
+    mappings loom.officialMojangMappings()
+}
