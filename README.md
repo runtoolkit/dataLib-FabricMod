@@ -1,4 +1,4 @@
-# dataLib (Fabric Mod)
+# dataLib-FabricMod
 
 **dataLib** is a mod framework for Minecraft Java Edition datapack developers. It provides a structured macro execution system, modular API modules, and multi-version compatibility — no mods required.
 
