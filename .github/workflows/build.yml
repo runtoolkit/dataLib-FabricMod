@@ -31,16 +31,25 @@ jobs:
         run: |
           echo "=== Auto Fix Starting ==="
 
-          echo "Before fix:"
-          cat build.gradle | head -n 30
+          echo "=== BEFORE FIX ==="
+          cat build.gradle | head -n 50
 
-          # Stronger fixes for loom_version issue
-          sed -i "s/id ['\"]fabric-loom['\"] version loom_version/id 'fabric-loom' version '1.9.2'/" build.gradle || true
-          sed -i 's/id "fabric-loom" version loom_version/id "fabric-loom" version "1.9.2"/' build.gradle || true
-          sed -i "s/loom_version = .*/loom_version = '1.9.2'/" gradle.properties || true
+          # Very aggressive fix for loom_version
+          sed -i "s/id ['\"]fabric-loom['\"] version loom_version/id 'fabric-loom' version '1.9.2' apply false/" build.gradle || true
+          sed -i 's/id "fabric-loom" version loom_version/id "fabric-loom" version "1.9.2" apply false/' build.gradle || true
+          
+          # Alternative common formats
+          sed -i "s/version loom_version/version '1.9.2'/" build.gradle || true
+          sed -i "s/loom_version/'1.9.2'/" build.gradle || true
 
-          echo "After fix:"
-          cat build.gradle | head -n 30
+          # Force replace the plugins block if needed
+          if grep -q "loom_version" build.gradle; then
+            echo "Forcing plugin replacement..."
+            sed -i '/fabric-loom/,+5 s/loom_version/1.9.2/g' build.gradle || true
+          fi
+
+          echo "=== AFTER FIX ==="
+          cat build.gradle | head -n 50
 
           rm -rf .gradle ~/.gradle/caches/fabric-loom 2>/dev/null || true
 
