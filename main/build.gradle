@@ -2,12 +2,6 @@ base {
     archivesName = "datalib-main"
 }
 
-dependencies {
-    implementation project(":core")
-    implementation project(":command")
-    implementation project(":log")
-}
-
 tasks.jar {
     dependsOn(
         ":core:remapJar",

@@ -1,7 +1,3 @@
 base {
     archivesName = "datalib-log"
 }
-
-dependencies {
-    implementation project(":core")
-}
