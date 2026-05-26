@@ -3,5 +3,5 @@ base {
 }
 
 dependencies {
-    modImplementation project(path: ":core", configuration: "namedElements")
+    implementation project(":core")
 }

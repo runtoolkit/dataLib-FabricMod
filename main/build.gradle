@@ -3,9 +3,9 @@ base {
 }
 
 dependencies {
-    modImplementation project(path: ":core", configuration: "namedElements")
-    modImplementation project(path: ":command", configuration: "namedElements")
-    modImplementation project(path: ":log", configuration: "namedElements")
+    implementation project(":core")
+    implementation project(":command")
+    implementation project(":log")
 }
 
 tasks.jar {
