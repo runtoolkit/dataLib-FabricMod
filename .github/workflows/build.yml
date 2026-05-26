@@ -32,28 +32,61 @@ jobs:
           echo "=== Auto Fix Starting ==="
 
           echo "=== BEFORE FIX ==="
-          cat build.gradle | head -n 50
+          cat build.gradle | head -n 40
 
-          # Very aggressive fix for loom_version
-          sed -i "s/id ['\"]fabric-loom['\"] version loom_version/id 'fabric-loom' version '1.9.2' apply false/" build.gradle || true
-          sed -i 's/id "fabric-loom" version loom_version/id "fabric-loom" version "1.9.2" apply false/' build.gradle || true
-          
-          # Alternative common formats
-          sed -i "s/version loom_version/version '1.9.2'/" build.gradle || true
-          sed -i "s/loom_version/'1.9.2'/" build.gradle || true
+          # Safe repair: Replace the entire plugins block cleanly
+          cat > build.gradle.new << 'EOF'
+plugins {
+    id 'fabric-loom' version '1.9.2' apply false
+}
 
-          # Force replace the plugins block if needed
-          if grep -q "loom_version" build.gradle; then
-            echo "Forcing plugin replacement..."
-            sed -i '/fabric-loom/,+5 s/loom_version/1.9.2/g' build.gradle || true
-          fi
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'fabric-loom'
+    version = project.mod_version
+    group = project.maven_group
+
+    repositories {
+        maven { url = 'https://maven.fabricmc.net/' }
+        mavenCentral()
+    }
+
+    dependencies {
+        minecraft "com.mojang:minecraft:${project.minecraft_version}"
+        mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+        modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+        modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    }
+
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+        withSourcesJar()
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = 'UTF-8'
+    }
+
+    tasks.processResources {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        inputs.property "version", project.version
+        filesMatching("fabric.mod.json") {
+            expand version: project.version
+        }
+    }
+}
+EOF
+
+          mv build.gradle.new build.gradle
 
           echo "=== AFTER FIX ==="
-          cat build.gradle | head -n 50
+          cat build.gradle | head -n 30
 
           rm -rf .gradle ~/.gradle/caches/fabric-loom 2>/dev/null || true
 
-          echo "Auto fix completed."
+          echo "Auto fix completed - plugins block replaced."
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
