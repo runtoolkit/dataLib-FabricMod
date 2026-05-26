@@ -5,18 +5,12 @@ base {
 tasks.jar {
     dependsOn(
         ":core:remapJar",
-        ":command:remapJar",
         ":log:remapJar"
     )
 
     from(zipTree(project(":core").tasks.named("remapJar").get().archiveFile)) {
         into("META-INF/jars")
         rename { "datalib-core.jar" }
-    }
-
-    from(zipTree(project(":command").tasks.named("remapJar").get().archiveFile)) {
-        into("META-INF/jars")
-        rename { "datalib-command.jar" }
     }
 
     from(zipTree(project(":log").tasks.named("remapJar").get().archiveFile)) {

@@ -53,12 +53,6 @@ jobs:
           name: datalib-core
           path: core/build/libs/*.jar
 
-      - name: Upload Command Module
-        uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: datalib-command
-          path: command/build/libs/*.jar
 
       - name: Upload Log Module
         uses: actions/upload-artifact@v7
