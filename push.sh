@@ -1,20 +1,26 @@
 #!/bin/bash
 
-# Otomatik commit mesajı
-commit_message="Auto commit: $(date '+%Y-%m-%d %H:%M:%S')"
+while true
+do
+    echo "Checking changes..."
 
-echo "Adding changes..."
-git add .
+    git add .
 
-echo "Committing changes..."
-git commit -m "$commit_message"
+    # Değişiklik var mı kontrol et
+    if ! git diff --cached --quiet; then
 
-echo "Pushing to remote repository (GitHub)..."
-git push
+        commit_message="Auto commit: $(date '+%Y-%m-%d %H:%M:%S')"
 
-# Check if push was successful
-if [ $? -eq 0 ]; then
-    echo "Operation completed successfully!"
-else
-    echo "An error occurred. Please check git status."
-fi
+        echo "Committing..."
+        git commit -m "$commit_message"
+
+        echo "Pushing..."
+        git push
+
+        echo "Done!"
+    else
+        echo "No changes detected."
+    fi
+
+    sleep 300
+done
