@@ -8,7 +8,6 @@
 |---|---|
 | **Macro Execution** | Call parametric functions with dynamic variable injection via `datalib:input` storage |
 | **Modular API** | Ready-to-use modules for math, strings, player data, scheduling, hooks, flags, lists, and timers |
-| **Multi-Version** | Compatible with 1.20.3 through 26.1 via overlay-based version system |
 | **Multiplayer-Safe** | No global state conflicts — designed for concurrent player use |
 | **Permissions** | Built-in `datalib:api/perm` module for role-based access control |
 | **Hook System** | Bind and fire custom events across datapacks |
