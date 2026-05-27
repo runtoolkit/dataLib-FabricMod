@@ -16,6 +16,13 @@ configure([project(":core"), project(":log")]) {
         maven { url = "https://maven.fabricmc.net/" }
     }
 
+    dependencies {
+        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+        mappings loom.officialMojangMappings()
+        modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+        modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_version}"
+    }
+
     loom {
         mods {
             "datalib" {
@@ -70,7 +77,6 @@ project(":main") {
     }
 
     dependencies {
-        // Only need fabric-loader for ModInitializer interface + slf4j
         compileOnly "net.fabricmc:fabric-loader:${rootProject.loader_version}"
     }
 
@@ -94,10 +100,7 @@ project(":main") {
         from(rootProject.file("LICENSE")) {
             rename { "${it}_${project.name}" }
         }
-        dependsOn(
-            ":core:remapJar",
-            ":log:remapJar"
-        )
+        dependsOn(":core:remapJar", ":log:remapJar")
         from(zipTree(project(":core").tasks.named("remapJar").get().archiveFile)) {
             into("META-INF/jars")
             rename { "datalib-core.jar" }
