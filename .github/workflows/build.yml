@@ -31,6 +31,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v6
         with:
           validate-wrappers: false
+          gradle-home-cache-cleanup: true
+
+      - name: Clean Loom cache
+        run: rm -rf .gradle/loom-cache
 
       - name: Build project
         run: ./gradlew clean build --stacktrace || true
@@ -52,14 +56,6 @@ jobs:
         with:
           name: datalib-core
           path: core/build/libs/*.jar
-
-
-      - name: Upload Log Module
-        uses: actions/upload-artifact@v7
-        if: always()
-        with:
-          name: datalib-log
-          path: log/build/libs/*.jar
 
   force-success:
     name: CI Status
