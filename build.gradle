@@ -3,8 +3,8 @@ plugins {
     id 'maven-publish'
 }
 
-// Loom subprojects: core and log only
-configure([project(":core"), project(":log")]) {
+// Only core uses Loom now
+project(":core") {
     apply plugin: 'fabric-loom'
     apply plugin: 'maven-publish'
 
@@ -100,14 +100,10 @@ project(":main") {
         from(rootProject.file("LICENSE")) {
             rename { "${it}_${project.name}" }
         }
-        dependsOn(":core:remapJar", ":log:remapJar")
+        dependsOn(":core:remapJar")
         from(zipTree(project(":core").tasks.named("remapJar").get().archiveFile)) {
             into("META-INF/jars")
             rename { "datalib-core.jar" }
-        }
-        from(zipTree(project(":log").tasks.named("remapJar").get().archiveFile)) {
-            into("META-INF/jars")
-            rename { "datalib-log.jar" }
         }
     }
 

@@ -7,7 +7,8 @@
 
   "entrypoints": {
     "main": [
-      "runtoolkit.datalib.core.DataLibCore"
+      "runtoolkit.datalib.core.DataLibCore",
+      "runtoolkit.datalib.log.DataLibLog"
     ]
   },
 

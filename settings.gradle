@@ -20,5 +20,4 @@ pluginManagement {
 rootProject.name = "datalib-fabricmod"
 
 include("core")
-include("log")
 include("main")
