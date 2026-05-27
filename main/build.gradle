@@ -1,3 +1,55 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+}
+
 base {
     archivesName = "datalib-main"
+}
+
+version = rootProject.mod_version
+group = rootProject.maven_group
+
+repositories {
+    mavenCentral()
+    maven { url = "https://maven.fabricmc.net/" }
+}
+
+dependencies {
+    compileOnly "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release = 21
+}
+
+processResources {
+    inputs.property "version", project.version
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+}
+
+jar {
+    from(rootProject.file("LICENSE")) {
+        rename { "${it}_${project.name}" }
+    }
+    dependsOn(":core:remapJar")
+    from(zipTree(project(":core").tasks.named("remapJar").get().archiveFile)) {
+        into("META-INF/jars")
+        rename { "datalib-core.jar" }
+    }
+}
+
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            from components.java
+        }
+    }
 }
