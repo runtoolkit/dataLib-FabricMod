@@ -4,7 +4,7 @@ plugins {
 }
 
 base {
-    archivesName = "datalib-main"
+    archivesName = "datalib"
 }
 
 version = rootProject.mod_version
@@ -13,10 +13,38 @@ group = rootProject.maven_group
 repositories {
     mavenCentral()
     maven { url = "https://maven.fabricmc.net/" }
+    maven {
+        name = "GitHubPackages-core"
+        url = uri("https://maven.pkg.github.com/runtoolkit/datalib-core")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
+    maven {
+        name = "GitHubPackages-log"
+        url = uri("https://maven.pkg.github.com/runtoolkit/datalib-log")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
+    maven {
+        name = "GitHubPackages-command"
+        url = uri("https://maven.pkg.github.com/runtoolkit/datalib-command")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 dependencies {
     compileOnly "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+    // Sub-module jars fetched from GitHub Packages
+    runtimeOnly "runtoolkit.datalib:datalib-core:${rootProject.mod_version}"
+    runtimeOnly "runtoolkit.datalib:datalib-log:${rootProject.mod_version}"
+    runtimeOnly "runtoolkit.datalib:datalib-command:${rootProject.mod_version}"
 }
 
 java {
@@ -36,20 +64,14 @@ processResources {
 }
 
 jar {
-    from(rootProject.file("LICENSE")) {
-        rename { "${it}_${project.name}" }
+    from("${rootProject.projectDir}/LICENSE") {
+        rename { "${it}_datalib" }
     }
-    dependsOn(":core:remapJar")
-    from(zipTree(project(":core").tasks.named("remapJar").get().archiveFile)) {
-        into("META-INF/jars")
-        rename { "datalib-core.jar" }
-    }
-}
 
-publishing {
-    publications {
-        create("mavenJava", MavenPublication) {
-            from components.java
+    // Bundle sub-module jars into META-INF/jars
+    configurations.runtimeOnly.resolvedConfiguration.resolvedArtifacts.each { artifact ->
+        from(artifact.file) {
+            into("META-INF/jars")
         }
     }
 }

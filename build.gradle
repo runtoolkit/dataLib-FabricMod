@@ -1,4 +1,4 @@
 plugins {
-    id 'fabric-loom' version "${loom_version}" apply false
+    id 'java'
     id 'maven-publish'
 }

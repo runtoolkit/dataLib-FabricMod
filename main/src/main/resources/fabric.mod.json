@@ -20,6 +20,8 @@
   },
 
   "jars": [
-    { "file": "META-INF/jars/datalib-core.jar" }
+    { "file": "META-INF/jars/datalib-core-${version}.jar" },
+    { "file": "META-INF/jars/datalib-log-${version}.jar" },
+    { "file": "META-INF/jars/datalib-command-${version}.jar" }
   ]
 }
