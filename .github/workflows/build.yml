@@ -23,6 +23,9 @@ jobs:
         run: chmod +x ./gradlew
       - name: build
         run: ./gradlew build
+        env:
+          GITHUB_ACTOR: ${{ github.actor }}
+          GITHUB_TOKEN: ${{ secrets.PACKAGES_TOKEN }}
       - name: capture build artifacts
         uses: actions/upload-artifact@v7
         with:
